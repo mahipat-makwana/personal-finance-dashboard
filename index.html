@@ -13,8 +13,9 @@
     />
   </head>
   <body>
+    <!--Navigation Bar-->
     <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
-      <div class="container-fluid p-2">
+      <div class="container p-2">
         <a href="#" class="navbar-brand">MoneyTrack</a>
 
         <button
@@ -36,9 +37,15 @@
                 >Dashboard</a
               >
             </li>
-            <li class="nav-item"><a href="#transaction" class="nav-link">Transactions</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Budget</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Reports</a></li>
+            <li class="nav-item">
+              <a href="#transactions" class="nav-link">Transactions</a>
+            </li>
+            <li class="nav-item">
+              <a href="#budget" class="nav-link">Budget</a>
+            </li>
+            <li class="nav-item">
+              <a href="#reports" class="nav-link">Reports</a>
+            </li>
           </ul>
 
           <div class="dropdown ms-auto mt-2 mt-lg-0">
@@ -63,10 +70,11 @@
 
     <main>
       <section id="dashboard" class="py-5">
-        <div class="container py-4">
+        <div class="container py-5">
           <h1 class="fw-bold">Finance Dashboard</h1>
           <p class="text-muted">Track your income, expenses, and balance.</p>
 
+          <!--Dashboard Summary Section-->
           <div class="row g-4 mt-4">
             <div class="col-12">
               <h2 class="fw-bold">Summary</h2>
@@ -99,6 +107,7 @@
         </div>
       </section>
 
+      <!--Add Transaction Section-->
       <section id="transactions" class="bg-light py-5">
         <div class="container">
           <div class="row justify-content-center">
@@ -106,31 +115,36 @@
               <div class="card shadow-sm">
                 <div class="card-body">
                   <h2 class="card-title fw-bold text-center">
-                    Transaction
+                    Add Transaction
                   </h2>
-                  <form class="p-4">
+                  <!--Transaction Form Start-->
+                  <form class="p-4" id="transaction-form">
                     <div class="mb-3">
-                        <fieldset>
-                      <legend>Transaction Type</legend>
-                      <input
-                        type="radio"
-                        id="choice1"
-                        name="transactions"
-                        value="income"
-                        class="form-check-input"
-                        checked
-                      />
-                      <label for="choice1" class="form-check-label">Income</label>
-                      <input
-                        type="radio"
-                        id="choice2"
-                        name="transactions"
-                        value="expense"
-                        class="form-check-input"
-                      />
-                      <label for="choice2" class="form-check-label">Expense</label>
+                      <fieldset>
+                        <legend>Transaction Type</legend>
+                        <input
+                          type="radio"
+                          id="type-income"
+                          name="transaction-type"
+                          value="income"
+                          class="form-check-input"
+                          checked
+                        />
+                        <label for="type-income" class="form-check-label"
+                          >Income</label
+                        >
+                        <input
+                          type="radio"
+                          id="type-expense"
+                          name="transaction-type"
+                          value="expense"
+                          class="form-check-input"
+                        />
+                        <label for="type-expense" class="form-check-label"
+                          >Expense</label
+                        >
+                      </fieldset>
                     </div>
-                    </fieldset>
                     <div class="mb-3">
                       <label for="description" class="form-label"
                         >Description</label
@@ -141,10 +155,11 @@
                         class="form-control"
                         rows="3"
                         placeholder="e.g. Grocery shopping"
+                        required
                       ></textarea>
                     </div>
                     <div class="mb-3">
-                      <div class="row">
+                      <div class="row g-3">
                         <div class="col-md-4">
                           <label for="amount" class="form-label">Amount</label>
                           <input
@@ -153,46 +168,581 @@
                             name="amount"
                             class="form-control"
                             placeholder="e.g. 1000"
-                            min="0.1"
-                            step="0.1"
+                            min="0.01"
+                            step="0.01"
                             required
                           />
                         </div>
                         <div class="col-md-4">
-                          <div class="dropdown">
-                            <button
-                              class="btn btn-outline-light dropdown-toggle"
-                              data-bs-toggle="dropdown"
-                              type="button"
-                              aria-expanded="false">
-                              Category
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                              <li>Profile</li>
-                              <li>Settings</li>
-                              <li>Logout</li>
-                            </ul>
-                          </div>
+                          <label class="form-label" for="category">
+                            Category
+                          </label>
+                          <select
+                            class="form-select"
+                            id="category"
+                            name="category"
+                            required
+                          >
+                            <option value="" selected disabled>
+                              Select a category
+                            </option>
+                            <optgroup label="Income">
+                              <option value="salary">Salary</option>
+                              <option value="freelance">Freelance</option>
+                              <option value="investment">Investment</option>
+                              <option value="gift">Gift</option>
+                              <option value="other-income">Other Income</option>
+                            </optgroup>
+                            <optgroup label="Expense">
+                              <option value="food">Food</option>
+                              <option value="transport">Transport</option>
+                              <option value="bills">Bills</option>
+                              <option value="shopping">Shopping</option>
+                              <option value="health">Health</option>
+                              <option value="education">Education</option>
+                              <option value="entertainment">
+                                Entertainment
+                              </option>
+                              <option value="other-expense">
+                                Other Expense
+                              </option>
+                            </optgroup>
+                          </select>
                         </div>
                         <div class="col-md-4">
                           <label for="date" class="form-label">Date</label>
-                          <input type="date" id="date" class="form-control" />
+                          <input
+                            type="date"
+                            id="date"
+                            name="date"
+                            class="form-control"
+                            required
+                          />
                         </div>
                       </div>
                     </div>
                     <div class="text-center mt-4">
-                        <button type="submit" class="btn btn-primary w-50">
-                      Add Transaction
-                    </button>
+                      <button type="submit" class="btn btn-primary w-50">
+                        Add Transaction
+                      </button>
                     </div>
                   </form>
+                  <!--Transaction Form End-->
                 </div>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      <!--Recent Transactions Section-->
+      <section id="recent-transactions" class="py-5">
+        <div class="container">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <div
+                class="d-flex flex-column flex-sm-row gap-1 justify-content-between align-items-center mb-3"
+              >
+                <h2 class="h4 fw-bold mb-0">Recent Transactions</h2>
+
+                <div>
+                  <button class="btn btn-primary" type="button">All</button>
+                  <button class="btn btn-outline-primary" type="button">
+                    Income
+                  </button>
+                  <button class="btn btn-outline-primary" type="button">
+                    Expense
+                  </button>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table class="table align-middle">
+                  <thead class="mb-3">
+                    <tr>
+                      <th scope="col">Date</th>
+                      <th scope="col">Description</th>
+                      <th scope="col">Category</th>
+                      <th scope="col">Type</th>
+                      <th scope="col" class="text-end">Amount</th>
+                      <th scope="col" class="text-end">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="transaction-list">
+                    <tr id="empty-state">
+                      <td colspan="6" class="text-center text-muted py-4">
+                        No transactions yet. Add one using the form above.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!--Budget Section-->
+      <section id="budget" class="py-5 bg-light">
+        <div class="container">
+          <h2 class="fw-bold">Budget</h2>
+          <p class="text-muted mt-0">
+            Plan monthly limits for your spending categories.
+          </p>
+          <div class="row g-4">
+            <div class="col-md-4 mb-3">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body text-primary">
+                  <h5 class="card-title">Total Monthly Budget</h5>
+                  <h3 class="fw-bold">Rs. 5000.00</h3>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body text-danger">
+                  <h5 class="card-title">Total Spent</h5>
+                  <h3 class="fw-bold">Rs. 3000.00</h3>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body text-success">
+                  <h5 class="card-title">Remaining</h5>
+                  <h3 class="fw-bold">Rs. 2000.00</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--Category Budgets Start-->
+          <div class="card shadow-sm my-4 py-4">
+            <div class="card-body">
+              <div
+                class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2"
+              >
+                <h4 class="card-title fw-bold">Category Budgets</h4>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#budget-modal"
+                >
+                  Set Budget
+                </button>
+              </div>
+              <div class="row g-3 mt-4">
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <span class="card-title fw-bold">Food</span>
+                        <span class="fw-bold">Rs. 3200 of Rs. 8000 </span>
+                      </div>
+                      <div
+                        class="progress mt-2"
+                        role="progressbar"
+                        aria-valuenow="40"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        aria-label="Food budget: 40% used"
+                      >
+                        <div class="progress-bar bg-success" style="width: 40%">
+                          40%
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <span class="card-title fw-bold">Transport</span>
+                        <span class="fw-bold">Rs. 1000 of Rs. 5000</span>
+                      </div>
+                      <div
+                        class="progress mt-2"
+                        role="progressbar"
+                        aria-valuenow="20"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        aria-label="Transport budget: 20% used"
+                      >
+                        <div class="progress-bar bg-success" style="width: 20%">
+                          20%
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <span class="card-title fw-bold">Entertainment</span>
+                        <span class="fw-bold">Rs. 4500 of Rs. 6000</span>
+                      </div>
+                      <div
+                        class="progress mt-2"
+                        role="progressbar"
+                        aria-valuenow="75"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        aria-label="Entertainment budget: 75% used"
+                      >
+                        <div class="progress-bar bg-warning" style="width: 75%">
+                          75%
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <span class="card-title fw-bold">Bills</span>
+                        <span class="fw-bold">Rs. 9200 of Rs. 10000</span>
+                      </div>
+                      <div
+                        class="progress mt-2"
+                        role="progressbar"
+                        aria-valuenow="92"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        aria-label="Bills budget: 92% used"
+                      >
+                        <div class="progress-bar bg-danger" style="width: 92%">
+                          92%
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <span class="card-title fw-bold">Shopping</span>
+                        <span class="fw-bold">Rs. 4500 of Rs. 6000</span>
+                      </div>
+                      <div
+                        class="progress mt-2"
+                        role="progressbar"
+                        aria-valuenow="75"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        aria-label="Shopping budget: 75% used"
+                      >
+                        <div class="progress-bar bg-warning" style="width: 75%">
+                          75%
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--Category Budget End-->
+        </div>
+      </section>
+
+      <!--Reports Section Starts-->
+      <section id="reports" class="py-5">
+        <div class="container">
+          <!--reports content-->
+          <div
+            class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2 mb-4"
+          >
+            <div>
+              <h2 class="fw-bold mb-1">Reports</h2>
+              <p class="text-muted mb-0">
+                Understand your monthly spending patterns.
+              </p>
+            </div>
+
+            <select
+              id="report-month"
+              class="form-select w-auto"
+              aria-label="Select report month"
+            >
+              <option value="2026-07">July 2026</option>
+              <option value="2026-06">June 2026</option>
+              <option value="2026-05">May 2026</option>
+            </select>
+          </div>
+
+          <!--Report Summary Cards Starts-->
+          <div class="row g-4 mb-4">
+            <div class="col-md-4">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body text-success">
+                  <h5 class="card-title">Total Income</h5>
+                  <h3 class="fw-bold" id="report-income">Rs. 15,000.00</h3>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body text-danger">
+                  <h5 class="card-title">Total Expenses</h5>
+                  <h3 class="fw-bold" id="report-expense">Rs. 9,500.00</h3>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body text-primary">
+                  <h5 class="card-title">Savings</h5>
+                  <h3 class="fw-bold" id="report-savings">Rs. 5,500.00</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--Report Summary Cards Ends-->
+
+          <div class="row g-4">
+            <!--Spending Overview Starts-->
+            <div class="col-lg-7">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                  <h4 class="card-title fw-bold">Spending Overview</h4>
+                  <p class="text-muted">Your expense chart will appear here</p>
+                  <div
+                    id="chart-placeholder"
+                    class="bg-light rounded d-flex justify-content-center align-items-center text-muted"
+                    style="min-height: 280px"
+                  >
+                    Monthly expense chart
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--Spending Overview Ends-->
+
+            <!--Category Breakdown Starts-->
+            <div class="col-lg-5">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                  <h4 class="card-title fw-bold">Spending by Category</h4>
+                  <div id="category-report-list" class="mt-4">
+                    <div class="mb-3">
+                      <div class="d-flex justify-content-between mb-1">
+                        <span class="fw-bold">Food</span>
+                        <span>Rs. 3200 (34%)</span>
+                      </div>
+                      <div
+                        class="progress"
+                        role="progressbar"
+                        aria-label="Food spending"
+                        aria-valuenow="34"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                      >
+                        <div class="progress-bar bg-primary" style="width: 34%">
+                          34%
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="mb-3">
+                      <div class="d-flex justify-content-between mb-1">
+                        <span class="fw-bold">Bills</span>
+                        <span>Rs. 2,500 (26%)</span>
+                      </div>
+                      <div
+                        class="progress"
+                        role="progressbar"
+                        aria-label="Bills spending"
+                        aria-valuenow="26"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                      >
+                        <div class="progress-bar bg-success" style="width: 26%">
+                          26%
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <div class="d-flex justify-content-between mb-1">
+                        <span class="fw-bold">Shopping</span>
+                        <span>Rs. 2,000 (21%)</span>
+                      </div>
+                      <div
+                        class="progress"
+                        role="progressbar"
+                        aria-label="Shopping spending"
+                        aria-valuenow="21"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                      >
+                        <div class="progress-bar bg-warning" style="width: 21%">
+                          21%
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="d-flex justify-content-between mb-1">
+                        <span class="fw-bold">Transport</span>
+                        <span>Rs. 1,000 (11%)</span>
+                      </div>
+                      <div
+                        class="progress"
+                        role="progressbar"
+                        aria-label="Transport spending"
+                        aria-valuenow="11"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                      >
+                        <div class="progress-bar bg-info" style="width: 11%">
+                          11%
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--Category Breakdown Ends-->
+          </div>
+        </div>
+      </section>
+      <!--Reports Section Ends-->
     </main>
+
+    <!--Footer Section-->
+    <footer class="bg-dark text-light py-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <h5>About MoneyTrack</h5>
+            <p class="text-white-50">
+              Brief company description or mission statement goes here.
+            </p>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <h5>Quick Links</h5>
+            <ul class="list-unstyled">
+              <li>
+                <a href="#dashboard" class="text-decoration-none text-light"
+                  >Dashboard</a
+                >
+              </li>
+              <li>
+                <a href="#transactions" class="text-decoration-none text-light"
+                  >Transactions</a
+                >
+              </li>
+              <li>
+                <a href="#budget" class="text-decoration-none text-light"
+                  >Budget</a
+                >
+              </li>
+              <li>
+                <a href="#reports" class="text-decoration-none text-light"
+                  >Reports</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <h5>Contact Info</h5>
+            <p class="text-white-50">Email: info@moneytrack.com</p>
+          </div>
+        </div>
+        <hr class="border-light opacity-25" />
+        <div class="row">
+          <div class="col text-center">
+            <p class="mb-0 text-white-50">
+              &copy; 2026 MoneyTrack. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Set Monthly Budget Modal Starts-->
+    <div
+      class="modal fade"
+      id="budget-modal"
+      tabindex="-1"
+      aria-labelledby="budget-modal-label"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="budget-modal-label">
+              Set Monthly Budget
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="budget-form">
+              <div class="mb-3">
+                <label for="budget-category" class="form-label">Category</label>
+                <select
+                  name="category"
+                  id="budget-category"
+                  class="form-select"
+                  required
+                >
+                  <option value="" selected disabled>Select Category</option>
+                  <option value="food">Food</option>
+                  <option value="transport">Transport</option>
+                  <option value="entertainment">Entertainment</option>
+                  <option value="bills">Bills</option>
+                  <option value="shopping">Shopping</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="budget-limit" class="form-label"
+                  >Monthly Limit</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="budget-limit"
+                  name="limit"
+                  min="0.01"
+                  step="0.01"
+                  required
+                />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              id="save-budget"
+              form="budget-form"
+            >
+              Save Budget
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Monthly Budget Set Modal End-->
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
