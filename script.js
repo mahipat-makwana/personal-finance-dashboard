@@ -1,8 +1,3 @@
-//Summary Card QuerySelectors
-const balanceElemet = document.querySelector("#balance");
-const incomeElement = document.querySelector("#income");
-const expenseElement = document.querySelector("#expense");
-
 //Transaction Form Working And Recent Transaction Table Section
 
 //Transaction List
@@ -32,7 +27,7 @@ transactionForm.addEventListener("submit", function (event) {
 
   transactions.push(transaction);
 
-  renderTransaction(transaction);
+  renderTransactions(getFilteredTransactions());
   transactionForm.reset();
 
   //update summary card
@@ -40,8 +35,6 @@ transactionForm.addEventListener("submit", function (event) {
 });
 
 function renderTransaction(transaction) {
-  document.querySelector("#empty-state")?.remove();
-
   const row = document.createElement("tr");
 
   const dateCell = document.createElement("td");
@@ -111,28 +104,18 @@ transactionList.addEventListener("click", function (event) {
   if (transactionIndex === -1) return;
   transactions.splice(transactionIndex, 1);
 
-  const row = event.target.closest("tr");
-  row.remove();
-
-  if (transactions.length === 0) {
-    const emptyStateRow = document.createElement("tr");
-    emptyStateRow.id = "empty-state";
-
-    const emptyStateText = document.createElement("td");
-    emptyStateText.colSpan = "6";
-    emptyStateText.className = "text-center text-muted py-4";
-    emptyStateText.textContent =
-      "No transactions yet. Add one using the form above.";
-
-    emptyStateRow.append(emptyStateText);
-    transactionList.append(emptyStateRow);
-  }
+  renderTransactions(getFilteredTransactions());
 
   //update summary card
   updateSummary();
 });
 
 // Three Summary Card Section
+
+//Summary Card QuerySelectors
+const balanceElement = document.querySelector("#balance");
+const incomeElement = document.querySelector("#income");
+const expenseElement = document.querySelector("#expense");
 
 function updateSummary() {
   const incomeTransactions = transactions.filter(
@@ -155,7 +138,66 @@ function updateSummary() {
 
   const totalBalance = totalIncome - totalExpense;
 
-  balanceElemet.textContent = `Rs. ${totalBalance.toFixed(2)}`;
+  balanceElement.textContent = `Rs. ${totalBalance.toFixed(2)}`;
   incomeElement.textContent = `Rs. ${totalIncome.toFixed(2)}`;
   expenseElement.textContent = `Rs. ${totalExpense.toFixed(2)}`;
+}
+
+//Recent Transaction Filter Buttons
+let currentFilter = "all";
+
+//Query Selector
+const filterButtons = document.querySelectorAll("[data-filter]");
+
+filterButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    filterButtons.forEach((filterButton) => {
+      filterButton.classList.remove("btn-primary");
+      filterButton.classList.add("btn-outline-primary");
+    });
+
+    button.classList.remove("btn-outline-primary");
+    button.classList.add("btn-primary");
+
+    currentFilter = button.dataset.filter;
+    renderTransactions(getFilteredTransactions());
+  });
+});
+
+//Reusable Helper Function
+function getFilteredTransactions() {
+  if (currentFilter === "all") {
+    return transactions;
+  }
+  return transactions.filter((transaction) => {
+    return transaction.type === currentFilter;
+  });
+}
+
+function renderTransactions(transactionArray) {
+  transactionList.innerHTML = "";
+
+  if (transactionArray.length === 0) {
+    let emptyMessage;
+    if (transactions.length === 0) {
+      emptyMessage = "No transactions yet. Add one using the form above.";
+    } else {
+      emptyMessage = "No matching transactions found.";
+    }
+
+    const filterEmptyStateRow = document.createElement("tr");
+
+    const filterEmptyStateText = document.createElement("td");
+    filterEmptyStateText.colSpan = "6";
+    filterEmptyStateText.className = "text-center text-muted py-4";
+    filterEmptyStateText.textContent = emptyMessage;
+
+    filterEmptyStateRow.append(filterEmptyStateText);
+    transactionList.append(filterEmptyStateRow);
+    return;
+  }
+
+  transactionArray.forEach((transaction) => {
+    renderTransaction(transaction);
+  });
 }
